@@ -56,3 +56,51 @@ export class PlayerPoints {
     return vidasRestantes < 3 ? pontosAtuais + 30 : pontosAtuais * 3;
   }
 }
+
+export class StringUtil {
+  EMPTY_STRING_ARRAY = [];
+
+  isEmpty(cs) {
+    return cs == null || cs.length === 0;
+  }
+
+  substringsBetween(str, open, close) {
+    if (str == null || this.isEmpty(open) || this.isEmpty(close)) {
+      return null;
+    }
+
+    const strLen = str.length;
+
+    if (strLen === 0) {
+      return this.EMPTY_STRING_ARRAY;
+    }
+
+    const closeLen = close.length;
+    const openLen = open.length;
+    const list = [];
+    let pos = 0;
+
+    while (pos < strLen - closeLen) {
+      const start = str.indexOf(open, pos);
+
+      if (start < 0) {
+        break;
+      }
+
+      const startAfterOpen = start + openLen;
+      const end = str.indexOf(close, startAfterOpen);
+      if (end < 0) {
+        break;
+      }
+
+      list.push(str.substring(startAfterOpen, end));
+      pos = end + closeLen;
+    }
+
+    if (list.length === 0) {
+      return null;
+    }
+
+    return list;
+  }
+}
